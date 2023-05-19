@@ -1,0 +1,107 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .header {
+    margin-bottom: 20px;
+  }
+  
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .ethereum-logo {
+    width: 20vh;
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: stretch;
+    justify-content: center;
+  }
+  
+  p {
+    margin-bottom: 5px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  input {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .payment-container {
+    margin-bottom: 20px;
+  }
+  
+  .admin-container {
+    margin-top: 20px;
+  }
+
+  .section-payment{
+    display: flex;
+    margin-bottom: 2vh;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .section-balance-account{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .info-title{
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    display: flex;
+    justify-content: center;
+  }
+
+  .info-value{
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    display: flex;
+    justify-content: center;
+  }
+
+  .section-transfer-to{
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    display: flex;
+    align-content: stretch;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .section-transfer-all{
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .section-get-address{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
