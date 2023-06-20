@@ -53,7 +53,7 @@ const PaymentGateway = () => {
     const loadContractData = async () => {
         try {
             // Obtener una instancia de contrato ya existente
-            const contractInstance = new web3Contract.eth.Contract(abi, '0x50D781328dC4B672f573fb16944f7d413ff38954');
+            const contractInstance = new web3Contract.eth.Contract(abi, '0x8eA3E09D483241e43efa5273aeA1ccC17d7E57aa');
             setContract(contractInstance);
             const contractOwner = await contractInstance.methods.owner().call();
             setOwner(contractOwner)
