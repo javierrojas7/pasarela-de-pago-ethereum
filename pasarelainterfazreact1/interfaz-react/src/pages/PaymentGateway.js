@@ -74,8 +74,9 @@ const PaymentGateway = () => {
   // CAMBIO 1: Nuevo estado para almacenar el ID del producto de la URL
   const [productId, setProductId] = useState(1)
 
-  const [configProductId, setConfigProductId] = useState(1);
-  const [configPriceEth, setConfigPriceEth] = useState(0.5);
+  // ELIMINADO: Se quitan los estados de configuración de precio
+  // const [configProductId, setConfigProductId] = useState(1);
+  // const [configPriceEth, setConfigPriceEth] = useState(0.5);
 
   const web3Contract = new Web3("http://localhost:8545")
 
@@ -150,7 +151,8 @@ const PaymentGateway = () => {
   // Función para cargar el contrato y los datos
   const loadContractData = async () => {
     try {
-      const contractInstance = new web3Contract.eth.Contract(abi, "0xea363A6c4e1a98Cbad8c565d73b30E7B1d237cFd")
+      // ⚠️ ADVERTENCIA: Asegúrate de que esta dirección es el contrato flexible
+      const contractInstance = new web3Contract.eth.Contract(abi, "0xd6a1A87Ab087e650A38aa16a8D0Af7FCA35632e1")
       setContract(contractInstance)
       const contractOwner = await contractInstance.methods.owner().call()
       setOwner(contractOwner)
@@ -169,7 +171,7 @@ const PaymentGateway = () => {
       const paymentValue = etherToWei(paymentAmount.toString())
       await contract.methods.pay(productId, productName).send({
         from: account,
-        value: paymentValue,
+        value: paymentValue, // 🎯 CAMBIO: Se usa el monto de la URL sin validación de contrato
         gas: 500000,
       })
 
@@ -298,6 +300,7 @@ const PaymentGateway = () => {
             popup: "my-swal-popup",
             title: "my-swal-title",
             htmlContainer: "my-swal-html",
+            confirmButton: "my-swal-confirm-button",// master
           },
         })
 
@@ -308,6 +311,10 @@ const PaymentGateway = () => {
             inputLabel: "Ingresa el número de producto (1-" + i + ")",
             inputPlaceholder: "1",
             showCancelButton: true,
+            customClass: {// master
+              popup: "my-swal-popup my-swal-with-input", // master
+              confirmButton: "my-swal-confirm-button",// master
+            },
             inputValidator: (value) => {
               const num = Number.parseInt(value)
               if (!value || num < 1 || num > i) {
@@ -443,6 +450,12 @@ const PaymentGateway = () => {
         showCancelButton: true,
         confirmButtonText: "Confirmar",
         cancelButtonText: "Cancelar",
+        customClass: {// master
+          popup: "my-swal-popup",// master
+          title: "my-swal-title",// master
+          htmlContainer: "my-swal-html",// master
+          confirmButton: "my-swal-confirm-button",// master
+        },// master
         inputValidator: (value) => {
           if (!value) {
             return "¡Debes seleccionar un estado!"
@@ -572,33 +585,6 @@ const PaymentGateway = () => {
               <button onClick={addressListProduct}>Obtener lista de compras por dirección</button>
             </div>
 
-            <h2 className="info-title" style={{ marginTop: '20px' }}>Configuración de Precios</h2>
-            <div className="section-transfer-to">
-              <div className="input-container">
-                {/* Input para ID del Producto */}
-                <label>ID del Producto:</label>
-                <input
-                  type="number"
-                  value={configProductId}
-                  onChange={(e) => setConfigProductId(Number(e.target.value))}
-                  min="1"
-                />
-                {/* Input para Precio en ETH */}
-                <label>Precio del Producto (ETH):</label>
-                <input
-                  type="number"
-                  value={configPriceEth}
-                  onChange={(e) => setConfigPriceEth(Number(e.target.value))}
-                  min="0.01"
-                  step="any"
-                />
-              </div>
-              <button onClick={setProductPriceOnContract}>
-                Establecer Precio en Contrato
-              </button>
-            </div>
-
-
             <h2 className="info-title">tranferir fondos</h2>
             <div className="section-transfer-to">
               <div className="input-container">
@@ -630,11 +616,10 @@ const PaymentGateway = () => {
             <div className="section-payment">
               <div className="input-container">
                 <label>Nombre del producto:</label>
-                {/* <input type="text" value={productName} onChange={(e) => setProductName(e.target.value)} /> */}
+                {/* Se mantiene el campo bloqueado */}
                 <input
                   type="text"
                   value={productName}
-                  // 🎯 CAMBIO 1: Deshabilitar la edición del Nombre
                   disabled
                   readOnly
                   onChange={(e) => setProductName(e.target.value)}
@@ -642,11 +627,10 @@ const PaymentGateway = () => {
               </div>
               <div className="input-container">
                 <label>Cantidad a pagar (ETH):</label>
-                {/* <input type="number" value={paymentAmount} onChange={(e) => setPaymentAmount(e.target.value)} /> */}
+                {/* Se mantiene el campo bloqueado */}
                 <input
                   type="number"
                   value={paymentAmount}
-                  // 🎯 CAMBIO 2: Deshabilitar la edición del Monto
                   disabled
                   readOnly
                   onChange={(e) => setPaymentAmount(e.target.value)}
@@ -672,42 +656,6 @@ const PaymentGateway = () => {
     }
   }
 
-  // Función para establecer el precio de un producto (Solo Owner)
-  const setProductPriceOnContract = async () => {
-    // 🎯 CAMBIO: Usar los estados conectados a los inputs
-    const productIdToSet = configProductId;
-    const amountInEther = configPriceEth;
-
-    if (owner !== account) {
-      return showErrorAlert("Acceso Denegado", "Solo el propietario del contrato puede establecer precios.");
-    }
-    // Añadida validación de ID para asegurarnos de que es un número positivo
-    if (productIdToSet <= 0 || isNaN(Number(productIdToSet))) {
-      return showErrorAlert("ID Inválido", "El ID del producto debe ser un número positivo.");
-    }
-    if (amountInEther <= 0 || isNaN(Number(amountInEther))) {
-      return showErrorAlert("Monto Inválido", "El precio debe ser mayor a cero.");
-    }
-
-    try {
-      const priceInWei = etherToWei(amountInEther.toString());
-
-      await contract.methods.setProductPrice(productIdToSet, priceInWei).send({
-        from: account,
-        gas: 300000,
-      });
-
-      showSuccessAlert(
-        "Precio Establecido",
-        `<p>El Producto ID <strong>${productIdToSet}</strong> se ha configurado a <strong>${amountInEther} ETH</strong>.</p>`
-      );
-
-    } catch (error) {
-      showErrorAlert("Fallo en Configuración", "Error al enviar la transacción. Asegúrate de que el precio no sea cero.");
-      console.error("Error setting product price:", error);
-    }
-  };
-
   return (
     <div>
       <div>
@@ -715,7 +663,7 @@ const PaymentGateway = () => {
         <div className="section">
           <div className="logo-container">
             <img
-              src={"/logo512.png"} // Apunta directamente al archivo en /public
+              src={"/logo_ethereum.jpg"} // Asume que el logo está en /public (ajustar si el nombre es diferente)
               alt="Ethereum Logo"
               className="ethereum-logo"
             />

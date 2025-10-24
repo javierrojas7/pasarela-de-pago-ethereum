@@ -440,6 +440,31 @@ button:disabled {
 }
 
 /* ========================================================= */
+/* === AJUSTE PARA INPUTS DENTRO DE SWEETALERT2 (Específico) === // master */
+/* ========================================================= */
+
+/* SOLO aplica estos estilos si el modal tiene la clase my-swal-with-input */
+.my-swal-with-input .swal2-input {
+  /* Fija el ancho para que quepa en el modal */
+  width: 90% !important; 
+  /* Centra el input */
+  margin: 10px auto !important; 
+  display: block !important;
+
+  /* Estilo visual heredado de tu tema */
+  background-color: #34495e !important; /* Fondo del input un poco más claro que el modal */
+  color: white !important;
+  border: 1px solid #7f8c8d !important;
+}
+
+/* Opcional: Centrar el contenedor del input para mejor estética */
+.my-swal-with-input .swal2-input-label {
+    text-align: center !important;
+}
+
+
+
+/* ========================================================= */
 /* === ESTILOS PARA ALERTA DE ERROR DE LUJO (SWEETALERT) === */
 /* ========================================================= */
 

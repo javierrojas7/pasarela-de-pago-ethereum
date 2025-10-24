@@ -1932,12 +1932,12 @@
     "1761282595676": {
       "events": {},
       "links": {},
-      "address": "0x53Bf420451F7F0391c86c75BA5f71d5C11BE8D6f",
-      "transactionHash": "0x575ae4b0d6274946d571744e25c5290e7fbc43bdb50c0d8f482a3185463cead2"
+      "address": "0xa4f719DCE7CcfcA3c63e1071366cb49dB0dEFb82",
+      "transactionHash": "0x2dc44f81af50e60e4a5781cbd94ac47ecfd47c94ddb8a880291238a9491c7a5f"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-10-24T05:10:04.080Z",
+  "updatedAt": "2025-10-24T10:17:52.593Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

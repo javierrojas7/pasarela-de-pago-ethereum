@@ -20417,12 +20417,12 @@
     "1761282595676": {
       "events": {},
       "links": {},
-      "address": "0x059F9Eb8128d50d55C9F81C5f9ac886fe4035d7e",
-      "transactionHash": "0xc95e04c41cbbb788b6ee71dead1cb5e7ed585508392da54b9b226cf40739c68d"
+      "address": "0x0a777147A33d55907ACEA0EdAA03EB0238f10E10",
+      "transactionHash": "0x952074a031c0f308d4f80e521a3285c7269408858338fdf2225b72cac8387b62"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-10-24T05:10:03.912Z",
+  "updatedAt": "2025-10-24T10:17:52.442Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
